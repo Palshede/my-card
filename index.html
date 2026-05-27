@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Card</title>
+  <!-- ================================================
+       STEP 1 — Change the tab title above (My Card)
+       ================================================ -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=DM+Serif+Display&display=swap" rel="stylesheet" />
+  <style>
+    /* ============================================================
+       THEME — tweak the colours here to match your style
+       ============================================================ */
+    :root {
+      --accent:        #534AB7;   /* header background */
+      --accent-mid:    #AFA9EC;   /* avatar border + icon tints */
+      --accent-light:  #EEEDFE;   /* avatar background */
+      --accent-dark:   #3C3489;   /* avatar initials colour */
+      --accent-text:   #EEEDFE;   /* name on header */
+      --accent-sub:    #AFA9EC;   /* tagline on header */
+      --bg:            #ffffff;
+      --bg-surface:    #f5f4f9;
+      --bg-page:       #ede9f8;
+      --border:        rgba(0,0,0,0.10);
+      --text:          #1a1a1a;
+      --text-muted:    #6b6880;
+      --radius-card:   20px;
+      --radius-el:     10px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg-page);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    /* ---- Card shell ---- */
+    .card {
+      width: 100%;
+      max-width: 400px;
+      background: var(--bg);
+      border-radius: var(--radius-card);
+      border: 0.5px solid var(--border);
+      overflow: hidden;
+    }
+
+    /* ---- Header ---- */
+    .card-header {
+      background: var(--accent);
+      padding: 2.25rem 1.75rem 1.75rem;
+      text-align: center;
+    }
+
+    /* ---- Profile photo / initials ---- */
+    .avatar-wrap {
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      border: 3px solid var(--accent-mid);
+      background: var(--accent-light);
+      margin: 0 auto 1.1rem;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* If you add a photo, the <img> inside fills the circle */
+    .avatar-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Shown when there is NO photo */
+    .avatar-initials {
+      font-family: 'DM Serif Display', serif;
+      font-size: 30px;
+      color: var(--accent-dark);
+      user-select: none;
+    }
+
+    .card-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: 22px;
+      font-weight: 400;
+      color: var(--accent-text);
+      margin-bottom: 4px;
+    }
+
+    .card-tagline {
+      font-size: 13px;
+      color: var(--accent-sub);
+    }
+
+    /* ---- Body ---- */
+    .card-body { padding: 1.4rem 1.5rem; }
+
+    .section-label {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    /* ---- Contact pills (phone + email side by side) ---- */
+    .contact-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 1.1rem;
+    }
+
+    .contact-pill {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      background: var(--bg-surface);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-el);
+      padding: 9px 11px;
+      text-decoration: none;
+      font-size: 13px;
+      color: var(--text);
+      overflow: hidden;
+      transition: background 0.15s;
+    }
+    .contact-pill:hover { background: var(--bg-page); }
+
+    .contact-pill svg {
+      flex-shrink: 0;
+      stroke: var(--accent);
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .contact-pill span {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* ---- Divider ---- */
+    .divider {
+      border: none;
+      border-top: 0.5px solid var(--border);
+      margin: 0.9rem 0 1rem;
+    }
+
+    /* ---- Social buttons ---- */
+    .socials { display: flex; flex-direction: column; gap: 8px; }
+
+    .social-btn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 13px;
+      border-radius: var(--radius-el);
+      border: 0.5px solid var(--border);
+      background: var(--bg);
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+    .social-btn:hover { background: var(--bg-surface); }
+
+    .social-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .social-info { flex: 1; }
+    .social-info .s-name  { font-size: 14px; font-weight: 500; color: var(--text); }
+    .social-info .s-handle { font-size: 12px; color: var(--text-muted); margin-top: 1px; }
+
+    .social-btn .arrow {
+      stroke: var(--text-muted);
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+
+    /* ---- Footer ---- */
+    .card-footer {
+      border-top: 0.5px solid var(--border);
+      padding: 0.9rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+    .card-footer span { font-size: 12px; color: var(--text-muted); }
+  </style>
+</head>
+<body>
+
+<div class="card">
+
+  <!-- ============================================================
+       HEADER — name, tagline, avatar
+       ============================================================ -->
+  <div class="card-header">
+
+    <div class="avatar-wrap">
+      <!--
+        OPTION A — Use a photo:
+          1. Put your photo file (e.g. photo.jpg) in the same folder as this file
+          2. Uncomment the line below and replace "photo.jpg" with your filename
+          3. Delete (or comment out) the <span> initials line below it
+      -->
+      <!-- <img src="photo.jpg" alt="Profile photo" /> -->
+
+      <!--
+        OPTION B — Use initials (default):
+          Replace "YN" with your own initials
+      -->
+      <span class="avatar-initials">MBP</span>
+    </div>
+
+    <!-- Your full name -->
+    <p class="card-name">Martin Bejer Palshede</p>
+
+    <!-- A short tagline, job title, or "leave blank" to remove -->
+    <p class="Stor mand, større personlighed</p>
+
+  </div>
+
+  <!-- ============================================================
+       BODY
+       ============================================================ -->
+  <div class="card-body">
+
+    <!-- ---- Contact ---- -->
+    <p class="section-label">Contact</p>
+    <div class="contact-row">
+
+      <!-- Phone — replace +00 00 00 00 00 with your number in both places -->
+      <a href="tel:++4529993410" class="contact-pill">
+        <svg width="16" height="16" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.0 1.22 2 2 0 012 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14.92z"/></svg>
+        <span>+45 29 99 34 10</span>
+      </a>
+
+      <!-- Email — replace both occurrences of you@email.com -->
+      <a href="mailto:bejerpal@gmail.com" class="contact-pill">
+        <svg width="16" height="16" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <span>bejerpal@gmail.com</span>
+      </a>
+
+    </div>
+
+    <hr class="divider" />
+    <p class="section-label">Socials</p>
+
+    <div class="socials">
+
+      <!-- ---- Instagram ---- -->
+      <!-- Replace the href URL and @yourhandle -->
+      <a href="https://instagram.com/bajsaz" class="social-btn" target="_blank" rel="noopener">
+        <div class="social-icon" style="background:#fce4f0;">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="#c9186e"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        </div>
+        <div class="social-info">
+          <div class="s-name">Instagram</div>
+          <div class="s-handle">@bajsaz</div>
+        </div>
+        <svg class="arrow" width="15" height="15" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+
+      <!-- ---- Facebook ---- -->
+      <!-- Replace the href URL and the handle text -->
+      <a href="https://facebook.com/palshede" class="social-btn" target="_blank" rel="noopener">
+        <div class="social-icon" style="background:#e6f0fd;">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        </div>
+        <div class="social-info">
+          <div class="s-name">Facebook</div>
+          <div class="s-handle">facebook.com/palshede</div>
+        </div>
+        <svg class="arrow" width="15" height="15" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+
+      <!-- ---- Snapchat ---- -->
+      <!-- Replace the href URL and @yourusername -->
+      <a href="https://snapchat.com/add/palshede" class="social-btn" target="_blank" rel="noopener">
+        <div class="social-icon" style="background:#fffbe6;">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="#9a7c00"><path d="M12.206.793c.99 0 4.347.276 5.93 3.821.529 1.193.403 3.219.317 4.992l-.004.08c-.002.047-.004.093-.005.138.05.028.12.06.217.09.162.048.398.095.692.095.3 0 .623-.05.933-.151.073-.025.148-.038.224-.038.198 0 .38.093.492.246.154.209.15.505-.012.714-.247.32-.693.494-1.258.608l-.025.006c-.148.03-.292.059-.425.113-.116.045-.264.148-.294.461-.03.296.104.597.319.815.185.188 1.027.725 2.518.72.272 0 .54.135.705.353.167.218.196.492.092.742-.208.488-.824.84-1.892 1.076-.216.048-.296.098-.356.149-.12.097-.127.243-.165.524-.031.226-.069.53-.23.826-.215.395-.55.556-.836.556-.137 0-.264-.03-.371-.063l-.156-.042c-.268-.072-.575-.155-.93-.155-.35 0-.645.073-.929.145l-.047.012c-.28.069-.564.138-.924.138-.355 0-.598-.07-.825-.138l-.055-.016c-.3-.084-.563-.125-.87-.125-.365 0-.657.094-.91.167l-.062.018c-.128.038-.26.063-.394.063-.304 0-.634-.162-.838-.556-.162-.296-.199-.6-.23-.826-.038-.281-.045-.427-.165-.524-.06-.051-.14-.1-.357-.149-1.067-.236-1.683-.588-1.892-1.076-.104-.25-.075-.524.092-.742.165-.218.433-.353.705-.353 1.492.005 2.333-.532 2.519-.72.214-.218.348-.52.318-.815-.03-.313-.177-.416-.293-.461-.134-.054-.278-.083-.426-.113l-.025-.006c-.565-.114-1.011-.288-1.258-.608-.162-.209-.166-.505-.012-.714.112-.153.294-.246.492-.246.076 0 .151.013.224.038.31.101.633.151.933.151.294 0 .53-.047.692-.095.098-.03.167-.062.217-.09l-.005-.138-.004-.08c-.086-1.773-.212-3.799.317-4.992C7.859 1.069 11.216.793 12.206.793z"/></svg>
+        </div>
+        <div class="social-info">
+          <div class="s-name">Snapchat</div>
+          <div class="s-handle">@palshede</div>
+        </div>
+        <svg class="arrow" width="15" height="15" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+
+      <!-- ---- Email (social row) ---- -->
+      <!-- Replace both occurrences of you@email.com -->
+      <a href="mailto:bejerpal@gmail.com" class="social-btn">
+        <div class="social-icon" style="background:#EEEDFE;">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#534AB7" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <div class="social-info">
+          <div class="s-name">Email</div>
+          <div class="s-handle">bejerpal@gmail.com</div>
+        </div>
+        <svg class="arrow" width="15" height="15" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+
+    </div>
+  </div>
+
+  <div class="card-footer">
+    <span class="dot"></span>
+    <span>Tap to connect</span>
+    <span class="dot"></span>
+  </div>
+
+</div>
+</body>
+</html>
